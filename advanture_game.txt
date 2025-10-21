@@ -1,0 +1,91 @@
+import random
+import time
+
+def show(msg, sec=2):
+    print(msg)
+    time.sleep(sec)
+
+def battle(tool):
+    show(f"The {enemy} jumps at you!")
+    if tool == "knife":
+        show("Your weapon feels too weak... just a tiny knife.")
+    while True:
+        choice = input("Do you want to (1) fight or (2) run? ")
+        if choice == "1":
+            if tool == "knife":
+                show("You try hard...")
+                show(f"But the {enemy} is way stronger.")
+                show("You lost the fight!")
+            else:
+                show(f"You raise the magic sword against the {enemy}...")
+                show(f"The {enemy} panics and runs away!")
+                show("The village is safe, you win!")
+            break
+        elif choice == "2":
+            show("You run back to the field.")
+            pick_path()
+            break
+        else:
+            show("Invalid choice, please enter 1 or 2.")
+
+def play_more():
+    while True:
+        again = input("Play again? (y/n): ").lower()
+        if again == "y":
+            show("Starting a new adventure...")
+            return True
+        elif again == "n":
+            show("Thanks for playing!")
+            return False
+        else:
+            show("Please type 'y' or 'n'.")
+
+def beginning():
+    show("You are standing in a wide field full of flowers.")
+    show(f"Rumor says a {enemy} is hiding nearby.")
+    show("In front of you is a small house.")
+    show("To the right is a dark cave.")
+    show(f"In your hand you hold a {player_tool}.")
+    show("Choose your path.", 0)
+
+def pick_path():
+    while True:
+        print("\n1 - Knock on the house door")
+        print("2 - Go into the cave")
+        choice = input("Your choice: ")
+        if choice == "1":
+            house_scene()
+            break
+        elif choice == "2":
+            cave_scene()
+            break
+        else:
+            show("Invalid choice. Please type 1 or 2.")
+
+def house_scene():
+    show("You walk to the house...")
+    show(f"The door opens and a {enemy} steps out!")
+    battle(player_tool)
+
+def cave_scene():
+    global cave_done, player_tool
+    show("You carefully look inside the cave...")
+    if cave_done:
+        show("The cave is empty. Nothing left here.")
+    else:
+        show("It's a small cave with something shiny...")
+        show("You found the magic sword!")
+        player_tool = "sword"
+        cave_done = True
+    show("You go back to the field.")
+    pick_path()
+
+while True:
+    enemies = ["dragon", "pirate", "troll", "goblin", "witch"]
+    enemy = random.choice(enemies)
+    player_tool = "knife"
+    cave_done = False
+    beginning()
+    pick_path()
+    if not play_more():
+        break
